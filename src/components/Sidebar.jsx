@@ -88,15 +88,79 @@
 //   );
 // }
 
+// import React from 'react';
+
+// export default function Sidebar() {
+//   const menuItems = [
+//     { name: 'Dashboard', active: true },
+//     { name: 'Order Details', active: false },
+//     { name: 'Inventory', active: false },
+//     { name: 'Products', active: false },
+//   ];
+
+//   return (
+//     <div className="w-64 h-screen bg-white border-r">
+//       {/* Logo */}
+//       <div className="py-6 px-6 ">
+//         <img src="/logo.png" alt="Happy Gummies" className="h-14" />
+//       </div>
+
+//       {/* Menu */}
+//       <div className="mt-6 px-6 flex flex-col gap-4">
+//         {menuItems.map((item, index) => (
+//           <div
+//             key={index}
+//             className={`flex items-center gap-2 px-3 py-2 rounded-md ${
+//               item.active
+//                 ? 'bg-[#F9E98B] text-black font-semibold'
+//                 : 'text-gray-500 hover:text-black'
+//             }`}
+//           >
+//             <img src="/grid.png" alt="icon" className="w-5 h-5" />
+//             <span className="text-sm">{item.name}</span>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const menuItems = [
-    { name: 'Dashboard', active: true },
-    { name: 'Order Details', active: false },
-    { name: 'Inventory', active: false },
-    { name: 'Products', active: false },
+    { 
+      name: 'Dashboard', 
+      path: '/dashboard',
+      icon: '/grid.png' 
+    },
+    { 
+      name: 'Order Details', 
+      path: '/order-details',
+      icon: '/grid.png' 
+    },
+    { 
+      name: 'Inventory', 
+      path: '/inventory',
+      icon: '/grid.png' 
+    },
+    { 
+      name: 'Products', 
+      path: '/products',
+      icon: '/grid.png' 
+    },
   ];
+
+  const isActive = (path) => location.pathname === path;
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="w-64 h-screen bg-white border-r">
@@ -110,13 +174,14 @@ export default function Sidebar() {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className={`flex items-center gap-2 px-3 py-2 rounded-md ${
-              item.active
+            onClick={() => handleNavigation(item.path)}
+            className={`flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors duration-200 ${
+              isActive(item.path)
                 ? 'bg-[#F9E98B] text-black font-semibold'
-                : 'text-gray-500 hover:text-black'
+                : 'text-gray-500 hover:text-black hover:bg-gray-50'
             }`}
           >
-            <img src="/grid.png" alt="icon" className="w-5 h-5" />
+            <img src={item.icon} alt="icon" className="w-5 h-5" />
             <span className="text-sm">{item.name}</span>
           </div>
         ))}
